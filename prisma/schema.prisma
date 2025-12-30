@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum UserRole {
+    EMPLOYEE
+    MANAGER
+    ADMIN
+}
+
+model Tenant {
+    id          String       @id @default(uuid())
+    name        String
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    users       User[]
+    departments Department[]
+}
+
+model Department {
+    id   String @id @default(uuid())
+    name String
+
+    tenantId String
+    tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+    users     User[]
+    files     File[]
+    questions Question[]
+
+    @@unique([tenantId, name])
+}
+
+model User {
+    id           String      @id @default(uuid())
+    name         String
+    email        String      @unique
+    password     String
+    roles        UserRole    @default(EMPLOYEE)
+    tenantId     String
+    tenant       Tenant      @relation(fields: [tenantId], references: [id])
+    departmentId String?
+    department   Department? @relation(fields: [departmentId], references: [id])
+    files        File[]
+    questions    Question[]
+}
+
+model File {
+    id           String     @id @default(uuid())
+    filename     String
+    url          String
+    createdAt    DateTime   @default(now())
+    departmentId String
+    department   Department @relation(fields: [departmentId], references: [id])
+    authorId     String
+    author       User       @relation(fields: [authorId], references: [id])
+}
+
+model Question {
+    id           String     @id @default(uuid())
+    content      String
+    createdAt    DateTime   @default(now())
+    departmentId String
+    department   Department @relation(fields: [departmentId], references: [id])
+    authorId     String
+    author       User       @relation(fields: [authorId], references: [id])
+}
