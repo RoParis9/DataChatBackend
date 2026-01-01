@@ -18,6 +18,12 @@ export class User {
   ) {}
 
   public isAdmin(): boolean {
-    return this.role === 'MANAGER';
+    return this.role === 'ADMIN';
+  }
+  public isManager(): boolean {
+    return this.role === 'MANAGER'
+  }
+  public isEmployee(): boolean {
+    return this.role === 'EMPLOYEE'
   }
 }
