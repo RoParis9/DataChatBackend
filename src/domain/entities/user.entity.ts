@@ -30,4 +30,20 @@ export class User {
   public isEmployee(): boolean {
     return this.role === UserRole.EMPLOYEE
   }
+  changeEmail(newEmail: Email) {
+    this.email = newEmail
+  }
+  changeRole(newRole: UserRole) {
+    if (this.role === UserRole.ADMIN && newRole !== UserRole.ADMIN) {
+      throw new CannotDemoteAdminError()
+    }
+    this.role = newRole;
+  }
+  changeName(name: string) {
+    if (!name.trim()) {
+      throw new InvalidUSerNameError();
+    }
+
+    this.name = name;
+  }
 }
