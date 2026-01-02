@@ -8,6 +8,7 @@ export interface UserRepository {
   findByEmail(email: Email): Promise<User | null>;
   findById(id: UserId): Promise<User | null>;
   findByCompanyId(companyId: CompanyId): Promise<User[]>;
+  findByDepartmentId(departmentId: string): Promise<User[]>;
   delete(user: User): Promise<void>;
   updateUser(user: User): Promise<User>;
 
