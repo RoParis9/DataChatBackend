@@ -1,3 +1,4 @@
+import { UserRole } from "../Enums/user-roles";
 import { CannotDemoteAdmin } from "../exceptions/CannotDemoteAdmin";
 import { InvalidUserName } from "../exceptions/InvalidUserName";
 import { UserAlreadyAssignedToDepartment } from "../exceptions/UserAlreadyAssigendToDepartment";
@@ -6,13 +7,6 @@ import { DepartmentId } from "../value-objects/DepartmentId";
 import { Email } from "../value-objects/Email";
 import { PasswordHash } from "../value-objects/Password-Hash";
 import { UserId } from "../value-objects/UserId";
-
-export enum UserRole {
-  EMPLOYEE = "EMPLOYEE",
-  DEPARTMENT_MANAGER = "DEPARTMENT_MANAGER",
-  COMPANY_OWNER = "COMPANY_OWNER",
-  ADMIN = "ADMIN",
-}
 
 export class User {
   constructor(
@@ -54,7 +48,7 @@ export class User {
   isCompanyOwner(): boolean {
     return this.role === UserRole.COMPANY_OWNER
   }
-  belongsToDepartment(departmentId: string): boolean {
+  belongsToDepartment(departmentId: DepartmentId): boolean {
     return this.departmentId === departmentId
   }
   assignDepartment(departmentId: DepartmentId) {
