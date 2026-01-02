@@ -15,7 +15,8 @@ datasource db {
 
 enum UserRole {
     EMPLOYEE
-    MANAGER
+    DEPARTMENT_MANAGER
+    COMPANY_OWNER
     ADMIN
 }
 

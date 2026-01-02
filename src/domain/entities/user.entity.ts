@@ -5,8 +5,9 @@ import { UserId } from "../value-objects/UserId";
 
 export enum UserRole {
   EMPLOYEE = "EMPLOYEE",
-  MANAGER = "MANAGER",
-  ADMIN = "ADMIN"
+  DEPARTMENT_MANAGER = "DEPARTMENT_MANAGER",
+  COMPANY_OWNER = "COMPANY_OWNER",
+  ADMIN = "ADMIN",
 }
 
 export class User {
@@ -21,13 +22,13 @@ export class User {
     public readonly departmentId?: string,
   ) {}
 
-  public isAdmin(): boolean {
+  isAdmin(): boolean {
     return this.role === UserRole.ADMIN
   }
-  public isManager(): boolean {
+  isManager(): boolean {
     return this.role === UserRole.MANAGER
   }
-  public isEmployee(): boolean {
+  isEmployee(): boolean {
     return this.role === UserRole.EMPLOYEE
   }
   changeEmail(newEmail: Email) {
@@ -45,5 +46,14 @@ export class User {
     }
 
     this.name = name;
+  }
+  isDepartmentManager(): boolean {
+    return this.role === UserRole.DEPARTMENT_MANAGER;
+  }
+  isCompanyOwner(): boolean {
+    return this.role === UserRole.COMPANY_OWNER
+  }
+  belongsToDepartment(departmentId: string): boolean {
+    return this.departmentId === departmentId
   }
 }

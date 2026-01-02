@@ -2,7 +2,7 @@ import { UserRepository } from "src/domain/repositories/user.repository";
 import { Email } from "src/domain/value-objects/Email";
 import { UserId } from "src/domain/value-objects/UserId";
 import { UserNotfoundError } from "../errors/user-not-found.error";
-import { UpdateUserInput } from "./UpdateUserInput";
+import { UpdateUserInput } from "./update-user.input";
 
 export class UpdateUserUseCase {
 
