@@ -1,6 +1,8 @@
 import { CannotDemoteAdmin } from "../exceptions/CannotDemoteAdmin";
 import { InvalidUserName } from "../exceptions/InvalidUserName";
+import { UserAlreadyAssignedToDepartment } from "../exceptions/UserAlreadyAssigendToDepartment";
 import { CompanyId } from "../value-objects/CompanyId";
+import { DepartmentId } from "../value-objects/DepartmentId";
 import { Email } from "../value-objects/Email";
 import { PasswordHash } from "../value-objects/Password-Hash";
 import { UserId } from "../value-objects/UserId";
@@ -21,7 +23,7 @@ export class User {
     public passwordHash: PasswordHash,
     public role: UserRole,
     public readonly createdAt: Date,
-    public readonly departmentId?: string,
+    public departmentId?: DepartmentId,
   ) {}
 
   isAdmin(): boolean {
@@ -55,4 +57,15 @@ export class User {
   belongsToDepartment(departmentId: string): boolean {
     return this.departmentId === departmentId
   }
+  assignDepartment(departmentId: DepartmentId) {
+    if (this.departmentId === departmentId) {
+      throw new UserAlreadyAssignedToDepartment
+    }
+    this.departmentId = departmentId
+  }
+  belongsToCompany(companyId: CompanyId) {
+    return this.companyId.equals(companyId)
+  }
+
+
 }
