@@ -1,3 +1,5 @@
+import { CannotDemoteAdmin } from "../exceptions/CannotDemoteAdmin";
+import { InvalidUserName } from "../exceptions/InvalidUserName";
 import { CompanyId } from "../value-objects/CompanyId";
 import { Email } from "../value-objects/Email";
 import { PasswordHash } from "../value-objects/Password-Hash";
@@ -33,13 +35,13 @@ export class User {
   }
   changeRole(newRole: UserRole) {
     if (this.role === UserRole.ADMIN && newRole !== UserRole.ADMIN) {
-      throw new CannotDemoteAdminError()
+      throw new CannotDemoteAdmin()
     }
     this.role = newRole;
   }
   changeName(name: string) {
     if (!name.trim()) {
-      throw new InvalidUSerNameError();
+      throw new InvalidUserName();
     }
 
     this.name = name;

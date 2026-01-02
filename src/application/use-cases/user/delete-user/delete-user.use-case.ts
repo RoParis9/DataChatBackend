@@ -21,7 +21,7 @@ export class DeleteUserUseCase {
     }
 
     if (requester.id.equals(targetUser.id)) {
-      throw new ForbiddenError("You cannot delete yourself")
+      throw new ForbiddenError()
     }
 
     if (requester.isAdmin()) {
