@@ -38,7 +38,7 @@ export class DeleteUserUseCase {
     }
 
     if (
-      requester.isManager() &&
+      requester.isDepartmentManager() &&
       requester.departmentId &&
       requester.departmentId === targetUser.departmentId
     ) {

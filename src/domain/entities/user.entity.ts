@@ -25,9 +25,6 @@ export class User {
   isAdmin(): boolean {
     return this.role === UserRole.ADMIN
   }
-  isManager(): boolean {
-    return this.role === UserRole.MANAGER
-  }
   isEmployee(): boolean {
     return this.role === UserRole.EMPLOYEE
   }
