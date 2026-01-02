@@ -15,11 +15,12 @@ datasource db {
 
 enum UserRole {
     EMPLOYEE
-    MANAGER
+    DEPARTMENT_MANAGER
+    COMPANY_OWNER
     ADMIN
 }
 
-model Tenant {
+model Company {
     id          String       @id @default(uuid())
     name        String
     createdAt   DateTime     @default(now())
@@ -32,14 +33,14 @@ model Department {
     id   String @id @default(uuid())
     name String
 
-    tenantId String
-    tenant   Tenant @relation(fields: [tenantId], references: [id])
+    companyId String
+    company   Company @relation(fields: [companyId], references: [id])
 
     users     User[]
     files     File[]
     questions Question[]
 
-    @@unique([tenantId, name])
+    @@unique([companyId, name])
 }
 
 model User {
@@ -48,8 +49,8 @@ model User {
     email        String      @unique
     password     String
     roles        UserRole    @default(EMPLOYEE)
-    tenantId     String
-    tenant       Tenant      @relation(fields: [tenantId], references: [id])
+    companyId    String
+    company      Company     @relation(fields: [companyId], references: [id])
     departmentId String?
     department   Department? @relation(fields: [departmentId], references: [id])
     files        File[]

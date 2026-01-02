@@ -1,23 +1,59 @@
+import { CompanyId } from "../value-objects/CompanyId";
 import { Email } from "../value-objects/Email";
+import { PasswordHash } from "../value-objects/Password-Hash";
+import { UserId } from "../value-objects/UserId";
 
 export enum UserRole {
   EMPLOYEE = "EMPLOYEE",
-  MANAGER = "MANAGER",
-  ADMIN = "ADMIN"
+  DEPARTMENT_MANAGER = "DEPARTMENT_MANAGER",
+  COMPANY_OWNER = "COMPANY_OWNER",
+  ADMIN = "ADMIN",
 }
 
 export class User {
   constructor(
-    public readonly id: string,
+    public readonly id: UserId,
+    public readonly companyId: CompanyId,
     public name: string,
     public email: Email,
+    public passwordHash: PasswordHash,
     public role: UserRole,
-    public tenantId: string,
-    public departmentId?: string,
-    public readonly createdAt?: Date,
+    public readonly createdAt: Date,
+    public readonly departmentId?: string,
   ) {}
 
-  public isAdmin(): boolean {
-    return this.role === 'MANAGER';
+  isAdmin(): boolean {
+    return this.role === UserRole.ADMIN
+  }
+  isManager(): boolean {
+    return this.role === UserRole.MANAGER
+  }
+  isEmployee(): boolean {
+    return this.role === UserRole.EMPLOYEE
+  }
+  changeEmail(newEmail: Email) {
+    this.email = newEmail
+  }
+  changeRole(newRole: UserRole) {
+    if (this.role === UserRole.ADMIN && newRole !== UserRole.ADMIN) {
+      throw new CannotDemoteAdminError()
+    }
+    this.role = newRole;
+  }
+  changeName(name: string) {
+    if (!name.trim()) {
+      throw new InvalidUSerNameError();
+    }
+
+    this.name = name;
+  }
+  isDepartmentManager(): boolean {
+    return this.role === UserRole.DEPARTMENT_MANAGER;
+  }
+  isCompanyOwner(): boolean {
+    return this.role === UserRole.COMPANY_OWNER
+  }
+  belongsToDepartment(departmentId: string): boolean {
+    return this.departmentId === departmentId
   }
 }
