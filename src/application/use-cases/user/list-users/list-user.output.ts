@@ -1,8 +1,10 @@
-import { UserRole } from "src/domain/entities/user.entity";
+import { UserRole } from "src/domain/Enums/user-roles";
 
 export interface ListUsersOutput {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
+  users: {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+  }[];
 }

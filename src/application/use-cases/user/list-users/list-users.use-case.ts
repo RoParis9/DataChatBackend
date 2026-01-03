@@ -1,4 +1,5 @@
 import { UserRepository } from "src/domain/repositories/user.repository";
+import { DepartmentId } from "src/domain/value-objects/DepartmentId";
 import { UserId } from "src/domain/value-objects/UserId";
 import { ForbiddenError } from "../errors/forbidden.error";
 import { UserNotfoundError } from "../errors/user-not-found.error";
@@ -10,24 +11,26 @@ export class ListUserUseCase {
     private readonly userRepository: UserRepository,
   ) {}
   async execute(input: ListUserInput): Promise<ListUsersOutput> {
+    const requesterId = UserId.fromString(input.requesterId);
+    const departmentId = DepartmentId.fromString(input.departmentId);
 
-    const requester = await this.userRepository.findById(new UserId(input.requesterId))
-
+    const requester = await this.userRepository.findById(requesterId);
 
     if (!requester) {
-      throw new UserNotfoundError()
+      throw new UserNotfoundError();
     }
 
     const canList =
       requester.isAdmin() ||
       requester.isCompanyOwner() ||
-      (requester.isDepartmentManager() && requester.belongsToDepartment(input.departmentId))
+      (requester.isDepartmentManager() &&
+        requester.belongsToDepartment(departmentId));
 
     if (!canList) {
-      throw new ForbiddenError()
+      throw new ForbiddenError();
     }
 
-    const users = await this.userRepository.findByDepartmentId(input.departmentId)
+    const users = await this.userRepository.findByDepartmentId(departmentId);
 
     return {
       users: users.map(user => ({
@@ -36,6 +39,6 @@ export class ListUserUseCase {
         email: user.email.toString(),
         role: user.role
       }))
-    }
+    };
   }
 }
