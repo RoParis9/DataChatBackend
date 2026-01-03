@@ -15,6 +15,10 @@ export class CompanyId {
   }
 
   static fromString(value: string): CompanyId {
+    if (!value || !value.trim()) {
+      throw new Error("CompanyId cannot be empty");
+    }
+
     return new CompanyId(value);
   }
 
