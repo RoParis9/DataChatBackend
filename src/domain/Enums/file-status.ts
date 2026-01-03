@@ -1,0 +1,6 @@
+export enum FileStatus {
+  UPLOADED = "UPLOADED",
+  PROCESSING = "PROCESSING",
+  VECTORIZED = "VECTORIZED",
+  FAILED = "FAILED"
+}
