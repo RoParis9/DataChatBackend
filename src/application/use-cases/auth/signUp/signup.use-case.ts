@@ -69,7 +69,7 @@ export class SignUpUseCase {
     await this.userRepository.save(user)
 
 
-    const accessToken = this.tokenGenerator.generateAccessToken({
+    const acessToken = this.tokenGenerator.generateAcessToken({
       sub: user.id.value,
       role: user.role,
       companyId: user.companyId.value
@@ -83,7 +83,7 @@ export class SignUpUseCase {
         role: user.role,
         companyId: user.companyId.value
       },
-      accessToken
+      acessToken
     }
   }
 }

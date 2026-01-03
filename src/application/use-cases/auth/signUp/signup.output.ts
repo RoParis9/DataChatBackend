@@ -6,5 +6,5 @@ export interface SignUpOutput {
     role: string
     companyId: string
   }
-  accessToken: string
+  acessToken: string
 }
