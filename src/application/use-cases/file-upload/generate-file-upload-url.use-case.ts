@@ -1,4 +1,3 @@
-import { Clock } from "src/application/ports/Clock";
 import { StorageService } from "src/application/ports/file-storage";
 import { IdGenerator } from "src/application/ports/id-generator";
 import { User } from "src/domain/entities/user.entity";
@@ -11,7 +10,6 @@ export class GenerateFileUploadUrlUseCase {
   constructor(
     private readonly storageService: StorageService,
     private readonly idGenerator: IdGenerator,
-    private readonly clock: Clock,
   ) {}
 
   async execute(
@@ -25,7 +23,7 @@ export class GenerateFileUploadUrlUseCase {
     const fileId = FileId.fromString(this.idGenerator.generate());
 
     const s3Key = this.buildS3Key({
-      companyId: requester.companyId.value,
+      companyId: requester.companyId.toString(),
       fileId: fileId.toString(),
       filename: input.filename,
     });
