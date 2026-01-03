@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 
 export class UserId {
   constructor(public readonly value: string) {
@@ -6,5 +7,13 @@ export class UserId {
 
   equals(other: UserId): boolean {
     return this.value === other.value
+  }
+
+  static create(): UserId {
+    return new UserId(randomUUID());
+  }
+
+  static fromString(value: string): UserId {
+    return new UserId(value);
   }
 }

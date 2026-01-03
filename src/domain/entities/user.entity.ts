@@ -14,7 +14,7 @@ export class User {
     public readonly companyId: CompanyId,
     public name: string,
     public email: Email,
-    public passwordHash: PasswordHash,
+    public passwordHashed: PasswordHash,
     public role: UserRole,
     public readonly createdAt: Date,
     public departmentId?: DepartmentId,
@@ -61,5 +61,25 @@ export class User {
     return this.companyId.equals(companyId)
   }
 
+  static create(params: {
+    name: string;
+    email: Email;
+    passwordHash: PasswordHash;
+    role: UserRole;
+    companyId: CompanyId;
+  }): User {
+    if (!params.name.trim()) {
+      throw new Error("User name cannot be empty");
+    }
 
+    return new User(
+      UserId.create(),
+      params.companyId,
+      params.name.trim(),
+      params.email,
+      params.passwordHash,
+      params.role,
+      new Date()
+    );
+  }
 }
