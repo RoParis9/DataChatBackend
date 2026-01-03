@@ -6,6 +6,7 @@ import { User } from "src/domain/entities/user.entity"
 import { CompanyRepository } from "src/domain/repositories/company.repository"
 import { UserRepository } from "src/domain/repositories/user.repository"
 import { Email } from "src/domain/value-objects/Email"
+import { PasswordHash } from "src/domain/value-objects/Password-Hash"
 import { EmailAlreadyInUseError } from "../errors/EmailAlreadyInUse"
 import { SignUpInput } from "./signup.input"
 import { SignUpOutput } from "./signup.output"
@@ -15,7 +16,7 @@ export class SignUpUseCase {
     private readonly userRepository: UserRepository,
     private readonly companyRepository: CompanyRepository,
     private readonly passwordHasher: PasswordHasher,
-    private readonly tokenService: TokenGenerator
+    private readonly tokenGenerator: TokenGenerator
   ) {}
 
   async execute(input: SignUpInput): Promise<SignUpOutput> {
@@ -28,12 +29,14 @@ export class SignUpUseCase {
 
     const hashedPassword = await this.passwordHasher.hash(input.password)
 
+    const passwordHash = PasswordHash.fromHash(hashedPassword)
+
     const company = Company.create(input.companyName)
 
     const user = User.create({
       name: input.name,
       email,
-      password: hashedPassword,
+      passwordHash,
       role: UserRole.COMPANY_OWNER,
       companyId: company.id
     })
@@ -41,10 +44,11 @@ export class SignUpUseCase {
     await this.companyRepository.save(company)
     await this.userRepository.save(user)
 
-    const accessToken = await this.tokenService.generateAcessToken({
-      userId: user.id.value,
-      companyId: company.id.value,
-      role: user.role
+
+    const accessToken = this.tokenGenerator.generateAccessToken({
+      sub: user.id.value,
+      role: user.role,
+      companyId: user.companyId.value
     })
 
     return {
