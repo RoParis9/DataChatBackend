@@ -20,4 +20,23 @@ export class Company {
   getName() {
     return this.name
   }
+
+  static create(name: string): Company {
+    if (!name.trim()) {
+      throw new Error("Company name cannot be empty")
+    }
+    return new Company(
+      CompanyId.create(),
+      name.trim(),
+      new Date()
+    )
+  }
+
+  static fromPersistence(
+    id: CompanyId,
+    name: string,
+    createdAt: Date
+  ): Company {
+    return new Company(id, name, createdAt);
+  }
 }

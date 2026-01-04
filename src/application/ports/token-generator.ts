@@ -1,6 +1,6 @@
-import { User } from "src/domain/entities/user.entity";
+import { TokenPayload } from "./token-verifier";
 
 export interface TokenGenerator {
-  generateAcessToken(user: User): string;
-  generateRefreshToken(user: User): string;
+  generateAcessToken(payload: TokenPayload): string;
+  generateRefreshToken(payload: TokenPayload): string;
 }

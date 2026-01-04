@@ -1,4 +1,4 @@
-import { UserRole } from "src/domain/entities/user.entity";
+import { UserRole } from "src/domain/Enums/user-roles";
 
 export interface CreateUserInput {
   name: string;
@@ -6,5 +6,5 @@ export interface CreateUserInput {
   password: string;
   role: UserRole;
   companyId: string;
-
+  departmentId?: string;
 }

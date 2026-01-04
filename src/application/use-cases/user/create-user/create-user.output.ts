@@ -1,4 +1,4 @@
-import { UserRole } from "src/domain/entities/user.entity";
+import { UserRole } from "src/domain/Enums/user-roles";
 
 export interface CreateUserOutput {
   id: string;
