@@ -3,7 +3,6 @@ import { EventBus } from "src/application/ports/event-bus";
 import { DomainFile } from "src/domain/entities/file.entity";
 import { User } from "src/domain/entities/user.entity";
 import { FileRepository } from "src/domain/repositories/file.repository";
-import { DepartmentId } from "src/domain/value-objects/DepartmentId";
 import { FileId } from "src/domain/value-objects/FileId";
 import { ForbiddenError } from "../../user/errors/forbidden.error";
 import { RegisterUploadedFileInput } from "./register-uploaded-file.input";
