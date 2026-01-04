@@ -6,4 +6,5 @@ export interface CreateUserInput {
   password: string;
   role: UserRole;
   companyId: string;
+  departmentId?: string;
 }

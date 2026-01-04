@@ -2,7 +2,7 @@ import { StorageService } from "src/application/ports/file-storage";
 import { IdGenerator } from "src/application/ports/id-generator";
 import { User } from "src/domain/entities/user.entity";
 import { FileId } from "src/domain/value-objects/FileId";
-import { ForbiddenError } from "../user/errors/forbidden.error";
+import { ForbiddenError } from "../../user/errors/forbidden.error";
 import { GenerateFileUploadUrlInput } from "./generate-file-upload-url.input";
 import { GenerateFileUploadUrlOutput } from "./generate-file-upload-url.output";
 

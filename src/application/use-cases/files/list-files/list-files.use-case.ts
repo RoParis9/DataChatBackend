@@ -1,6 +1,6 @@
 import { User } from "src/domain/entities/user.entity";
 import { FileRepository } from "src/domain/repositories/file.repository";
-import { ForbiddenError } from "../user/errors/forbidden.error";
+import { ForbiddenError } from "../../user/errors/forbidden.error";
 import { ListFilesInput } from "./list-files.input";
 import { ListFilesOutput } from "./list-files.output";
 
