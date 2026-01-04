@@ -1,4 +1,4 @@
-import { PasswordHasher } from "src/application/ports/PasswordHasher"
+import { PasswordHasher } from "src/application/ports/Password-hasher"
 import { TokenGenerator } from "src/application/ports/token-generator"
 import { UserRole } from "src/domain/Enums/user-roles"
 import { Company } from "src/domain/entities/company.entity"

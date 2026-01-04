@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { PasswordHasher } from "src/application/ports/PasswordHasher";
+import { PasswordHasher } from "src/application/ports/Password-hasher";
 import { User } from "src/domain/entities/user.entity";
 import { UserRepository } from "src/domain/repositories/user.repository";
 import { CompanyId } from "src/domain/value-objects/CompanyId";

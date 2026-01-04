@@ -1,5 +1,5 @@
 // application/use-cases/auth/sign-in/sign-in.use-case.ts
-import { PasswordHasher } from "src/application/ports/PasswordHasher";
+import { PasswordHasher } from "src/application/ports/Password-hasher";
 import { TokenGenerator } from "src/application/ports/token-generator";
 import { UserRepository } from "src/domain/repositories/user.repository";
 import { Email } from "src/domain/value-objects/Email";
