@@ -4,8 +4,8 @@ import { DepartmentId } from "../value-objects/DepartmentId";
 import { FileId } from "../value-objects/FileId";
 import { UserId } from "../value-objects/UserId";
 
-export class File {
-  constructor(
+export class DomainFile {
+  private constructor(
     public readonly id: FileId,
     public readonly companyId: CompanyId,
     public readonly uploadedBy: UserId,
@@ -15,6 +15,27 @@ export class File {
     private status: FileStatus,
     public readonly createdAt: Date
   ) {}
+
+  static create(params: {
+    id: FileId;
+    companyId: CompanyId;
+    uploadedBy: UserId;
+    departmentId: DepartmentId;
+    name: string;
+    s3Key: string;
+    createdAt: Date;
+  }): DomainFile {
+    return new DomainFile(
+      params.id,
+      params.companyId,
+      params.uploadedBy,
+      params.departmentId,
+      params.name,
+      params.s3Key,
+      FileStatus.UPLOADED,
+      params.createdAt
+    );
+  }
 
   markProcessing() {
     this.status = FileStatus.PROCESSING;
@@ -34,5 +55,11 @@ export class File {
 
   getStatus() {
     return this.status;
+  }
+  getS3Key(): string {
+    return this.s3Key
+  }
+  getName(): string {
+    return this.name
   }
 }

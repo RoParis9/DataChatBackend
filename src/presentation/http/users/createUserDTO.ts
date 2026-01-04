@@ -1,5 +1,6 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from "class-validator";
-import { UserRole } from "src/domain/entities/user.entity";
+import { UserRole } from "src/domain/Enums/user-roles";
+
 
 export class CreateUserDTO {
 

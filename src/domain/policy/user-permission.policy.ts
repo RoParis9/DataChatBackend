@@ -21,6 +21,15 @@ export class UserPermissionPolicy {
   }
 
   static canUploadFiles(user: User, departmentId: DepartmentId): boolean {
-    return user.belongsToDepartment(departmentId);
+    return (
+      user.isEmployee() ||
+      user.isDepartmentManager() ||
+      user.isCompanyOwner() ||
+      user.isAdmin())
+  }
+
+  static canSeeFiles(user: User, departmentId: DepartmentId): boolean {
+    if (user.isAdmin() || user.isCompanyOwner()) return true
+    return user.departmentId?.equals(departmentId) ?? false
   }
 }

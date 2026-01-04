@@ -13,7 +13,7 @@ export class ListFilesUseCase {
     requester: User,
     input: ListFilesInput
   ): Promise<ListFilesOutput> {
-    let files;
+    let files: any;
 
     if (requester.isAdmin() || requester.isCompanyOwner()) {
       files = await this.fileRepository.findByCompany(requester.companyId);
