@@ -1,15 +1,18 @@
-import jwt, { JwtPayload, Secret, SignOptions } from "jsonwebtoken";
+import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { TokenGenerator } from "src/application/ports/token-generator";
 import { TokenPayload, TokenVerifier } from "src/application/ports/token-verifier";
 
 export class JwtTokenService implements TokenGenerator, TokenVerifier {
-  private readonly accessTokenSecret: Secret;
-  private readonly refreshTokenSecret: Secret;
+  private readonly accessTokenSecret: string;
+  private readonly refreshTokenSecret: string;
   private readonly accessTokenOptions: SignOptions;
   private readonly refreshTokenOptions: SignOptions;
 
   constructor() {
-    if (!process.env.JWT_ACCESS_TOKEN_SECRET || !process.env.JWT_REFRESH_TOKEN_SECRET) {
+    if (
+      !process.env.JWT_ACCESS_TOKEN_SECRET ||
+      !process.env.JWT_REFRESH_TOKEN_SECRET
+    ) {
       throw new Error("JWT secrets are not configured");
     }
 
@@ -17,11 +20,11 @@ export class JwtTokenService implements TokenGenerator, TokenVerifier {
     this.refreshTokenSecret = process.env.JWT_REFRESH_TOKEN_SECRET;
 
     this.accessTokenOptions = {
-      expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN ?? "15m",
+      expiresIn: Number(process.env.JWT_ACCESS_TOKEN_EXPIRES_IN),
     };
 
     this.refreshTokenOptions = {
-      expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN ?? "7d",
+      expiresIn: Number(process.env.JWT_REFRESH_TOKEN_EXPIRES_IN),
     };
   }
 
@@ -41,7 +44,10 @@ export class JwtTokenService implements TokenGenerator, TokenVerifier {
 
   generateRefreshToken(payload: TokenPayload): string {
     return jwt.sign(
-      {},
+      {
+        role: payload.role,
+        companyId: payload.companyId,
+      },
       this.refreshTokenSecret,
       {
         ...this.refreshTokenOptions,
@@ -51,7 +57,10 @@ export class JwtTokenService implements TokenGenerator, TokenVerifier {
   }
 
   verifyAcessToken(token: string): TokenPayload {
-    const decoded = jwt.verify(token, this.accessTokenSecret) as JwtPayload;
+    const decoded = jwt.verify(
+      token,
+      this.accessTokenSecret
+    ) as JwtPayload;
 
     return {
       sub: decoded.sub as string,
@@ -61,7 +70,10 @@ export class JwtTokenService implements TokenGenerator, TokenVerifier {
   }
 
   verifyRefreshToken(token: string): TokenPayload {
-    const decoded = jwt.verify(token, this.refreshTokenSecret) as JwtPayload;
+    const decoded = jwt.verify(
+      token,
+      this.refreshTokenSecret
+    ) as JwtPayload;
 
     return {
       sub: decoded.sub as string,
